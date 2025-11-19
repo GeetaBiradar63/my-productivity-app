@@ -1,146 +1,82 @@
-body {
-    font-family: Arial, sans-serif;
-    background: #f4f6f9;
-    margin: 0;
+:root{
+  --bg1:linear-gradient(135deg,#6e8efb,#a777e3);
+  --glass-bg: rgba(255,255,255,0.08);
+  --card-border: rgba(255,255,255,0.12);
+  --accent: #60a5fa;
+  --muted: rgba(255,255,255,0.8);
+  --danger: #ff6b6b;
+  --glass-blur: 10px;
 }
 
-header {
-    background: #4a90e2;
-    color: white;
-    padding: 15px;
-    text-align: center;
-    font-size: 24px;
-    position: relative;
+/* body */
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+  background:var(--bg1);
+  color:#fff;min-height:100vh;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  transition:background .4s ease;
 }
 
-#themeToggle {
-    position: absolute;
-    right: 20px;
-    top: 12px;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 22px;
-    cursor: pointer;
+/* topbar */
+.topbar{
+  display:flex;justify-content:space-between;align-items:center;padding:14px 28px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  backdrop-filter: blur(8px); border-bottom:1px solid rgba(255,255,255,0.06);
 }
+.topbar .logo{font-weight:700;font-size:18px;letter-spacing:0.2px}
+.topbar select{padding:6px 8px;border-radius:8px;border:none;background:rgba(255,255,255,0.9);color:#111}
 
-.container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-    padding: 20px;
-}
+/* layout grid */
+.grid{display:grid;grid-template-columns:320px 1fr 320px;gap:20px;padding:28px}
+.col{min-height:80vh}
 
-.projects-section,
-.tasks-section,
-.notes-section,
-.timer-section,
-.dashboard-section,
-.calendar-section {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
-}
+/* cards */
+.card{background:var(--glass-bg);border-radius:14px;padding:18px;border:1px solid var(--card-border);backdrop-filter: blur(var(--glass-blur)); box-shadow:0 6px 30px rgba(8,10,30,0.18);transition:transform .18s ease,box-shadow .18s ease}
+.card h3{margin:0 0 12px 0;color:var(--muted);font-size:14px}
 
-input, textarea, select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 12px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 15px;
-}
+/* dashboard stats */
+.stats{display:flex;gap:12px;margin-bottom:12px}
+.stat{flex:1;padding:10px;border-radius:10px;background:rgba(255,255,255,0.03);text-align:center}
+.stat .count{font-size:22px;font-weight:700}
+.progress-wrap{display:flex;align-items:center;gap:12px;margin-top:8px}
+.progress-ring{transform:rotate(-90deg)}
+.progress-ring__circle{fill:none;stroke:rgba(255,255,255,0.12);stroke-dasharray:226;stroke-dashoffset:226;transition:stroke-dashoffset .6s ease}
 
-button {
-    padding: 8px 16px;
-    background: #4a90e2;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-}
+/* input groups */
+.row{display:flex;gap:10px}
+input,select,textarea{border:none;padding:10px;border-radius:8px;background:rgba(255,255,255,0.06);color:#fff;outline:none}
+input::placeholder{color:rgba(255,255,255,0.6)}
+.btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:10px;border:none;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease}
+.btn:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,0.2)}
+.btn.danger{background:var(--danger)}
 
-button:hover {
-    background: #3178c6;
-}
+/* lists */
+.list, .task-list{margin:0;padding:0;list-style:none}
+.task-list li{display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:10px;background:rgba(255,255,255,0.03);margin-bottom:10px;transition:transform .12s ease}
+.task-list li.dragging{opacity:0.6;transform:scale(.995)}
+.task-left{display:flex;align-items:center;gap:12px}
+.badge{display:inline-block;padding:6px 8px;border-radius:8px;font-size:12px;background:rgba(0,0,0,0.12);color:#111}
 
-#taskList li {
-    list-style: none;
-    background: #f9f9f9;
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+/* priority colors */
+.badge.low{background:#7dd3fc;color:#022c43}
+.badge.medium{background:#fde68a;color:#5a3f00}
+.badge.high{background:#ffc4c4;color:#4a0000}
 
-.task-buttons button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    margin-left: 8px;
-}
+/* sticky notes */
+.sticky-area{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.sticky{width:150px;padding:10px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.2);cursor:grab;position:relative}
+.sticky .title{font-weight:700;margin-bottom:6px}
 
-.task-buttons button:nth-child(1) { color: green; }
-task-buttons button:nth-child(2) { color: orange; }
-task-buttons button:nth-child(3) { color: red; }
+/* calendar */
+.calendar-table{width:100%;border-collapse:collapse;color:#fff}
+.calendar-table th, .calendar-table td{padding:8px;border-bottom:1px solid rgba(255,255,255,0.04);text-align:left}
 
-#calendarTable {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: center;
-}
+/* pomodoro */
+.timer{font-size:36px;text-align:center;margin-bottom:8px}
 
-#calendarTable td,
-#calendarTable th {
-    padding: 8px;
-    border: 1px solid #ccc;
-}
+/* footer */
+.footer{text-align:center;padding:14px;color:rgba(255,255,255,0.85)}
 
-/******** DARK MODE *********/
-
-body.dark {
-    background: #1e1e1e;
-    color: #fff;
-}
-
-body.dark header {
-    background: #333;
-}
-
-body.dark .projects-section,
-body.dark .tasks-section,
-body.dark .notes-section,
-body.dark .timer-section,
-body.dark .dashboard-section,
-body.dark .calendar-section {
-    background: #2b2b2b;
-    color: white;
-}
-
-body.dark input,
-body.dark textarea,
-body.dark select {
-    background: #3a3a3a;
-    border: 1px solid #555;
-    color: #fff;
-}
-
-body.dark #taskList li {
-    background: #3d3d3d;
-}
-
-body.dark #calendarTable td,
-body.dark #calendarTable th {
-    border: 1px solid #555;
-}
-
-#timer {
-    font-size: 40px;
-    text-align: center;
-    font-weight: bold;
-}
+/* small screens */
+@media(max-width:980px){.grid{grid-template-columns:1fr;padding:16px}.left-col{order:2}.right-col{order:3}}
