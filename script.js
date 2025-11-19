@@ -1,34 +1,27 @@
 // ======================
 // BACKEND TASK API SETUP
 // ======================
- // local backend
-// ======================
-// BACKEND TASK API SETUP
-// ======================
 
 // Use Render backend URL
 const API = "https://my-productivity-app-79up.onrender.com/tasks";
 
-
-
 // HTML elements
 const taskInput = document.getElementById("taskInput");
+const categoryInput = document.getElementById("categoryInput");
+const deadlineInput = document.getElementById("deadlineInput");
+const searchInput = document.getElementById("searchInput");
 const taskList = document.getElementById("taskList");
 
 
 // =====================
-// LOAD TASKS FROM BACKEND
+// LOAD TASKS
 // =====================
 async function loadTasks() {
-    try {
-        const res = await fetch(API);
-        const tasks = await res.json();
-        renderTasks(tasks);
-    } catch (err) {
-        console.error(err);
-        taskList.innerHTML = "<li style='color:red'>Backend not running</li>";
-    }
+    const res = await fetch(API);
+    const tasks = await res.json();
+    renderTasks(tasks);
 }
+
 
 // =====================
 // RENDER TASKS
@@ -36,63 +29,107 @@ async function loadTasks() {
 function renderTasks(tasks) {
     taskList.innerHTML = "";
 
-    if (!tasks || tasks.length === 0) {
-        taskList.innerHTML = "<li>No tasks yet</li>";
+    if (tasks.length === 0) {
+        taskList.innerHTML = "<li>No tasks found</li>";
         return;
     }
 
-    tasks.forEach(t => {
+    tasks.forEach((t) => {
         const li = document.createElement("li");
 
-        // task title
-        const span = document.createElement("span");
-        span.textContent = t.title;
+        li.innerHTML = `
+            <span style="${t.completed ? "text-decoration: line-through;" : ""}">
+                ${t.title} 
+                <small>[${t.category}]</small>
+                <small>${t.deadline ? new Date(t.deadline).toLocaleDateString() : ""}</small>
+            </span>
 
-        // delete button
-        const delBtn = document.createElement("button");
-        delBtn.textContent = "X";
-        delBtn.onclick = () => deleteTask(t._id);
+            <div class="task-buttons">
+                <button onclick="completeTask('${t._id}')">✔</button>
+                <button onclick="editTaskPrompt('${t._id}', '${t.title}')">✏</button>
+                <button onclick="deleteTask('${t._id}')">X</button>
+            </div>
+        `;
 
-        li.style.display = "flex";
-        li.style.justifyContent = "space-between";
-        li.style.alignItems = "center";
-
-        li.append(span, delBtn);
         taskList.appendChild(li);
     });
 }
 
+
 // =====================
-// ADD A TASK (POST)
+// ADD TASK
 // =====================
 async function addTask() {
     const title = taskInput.value.trim();
+    const category = categoryInput.value;
+    const deadline = deadlineInput.value;
+
     if (!title) return alert("Enter a task");
 
     await fetch(API, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, completed: false })
+        body: JSON.stringify({ title, category, deadline, completed: false }),
     });
 
     taskInput.value = "";
+    deadlineInput.value = "";
     loadTasks();
 }
 
+
 // =====================
-// DELETE A TASK (DELETE)
+// MARK COMPLETE
+// =====================
+async function completeTask(id) {
+    await fetch(`${API}/complete/${id}`, { method: "PUT" });
+    loadTasks();
+}
+
+
+// =====================
+// EDIT TASK
+// =====================
+async function editTaskPrompt(id, oldTitle) {
+    const newTitle = prompt("Edit task:", oldTitle);
+    if (!newTitle) return;
+
+    await fetch(`${API}/edit/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: newTitle }),
+    });
+
+    loadTasks();
+}
+
+
+// =====================
+// DELETE TASK
 // =====================
 async function deleteTask(id) {
-    await fetch(`${API}/${id}`, {
-        method: "DELETE"
-    });
+    await fetch(`${API}/${id}`, { method: "DELETE" });
     loadTasks();
 }
 
 
-// ============================
-// PROJECTS — LOCAL STORAGE ONLY
-// ============================
+// =====================
+// SEARCH TASKS
+// =====================
+async function searchTasks() {
+    const q = searchInput.value;
+
+    if (!q.trim()) return loadTasks();
+
+    const res = await fetch(`${API}/search/${q}`);
+    const tasks = await res.json();
+    renderTasks(tasks);
+}
+
+
+// =====================
+// PROJECTS — LOCAL STORAGE
+// =====================
 let projects = JSON.parse(localStorage.getItem("projects")) || [];
 
 function addProject() {
@@ -171,9 +208,8 @@ function updateTimer() {
 
 
 // =====================
-// INITIAL PAGE LOAD
+// INITIAL LOAD
 // =====================
 renderProjects();
 updateTimer();
 loadTasks();
-
