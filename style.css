@@ -1,62 +1,121 @@
+/* ============================
+   GLOBAL STYLES
+=============================== */
 body {
-    background: #f7f7f7;
     font-family: Arial, sans-serif;
+    background: #f4f6f9;
     margin: 0;
     padding: 0;
 }
 
 header {
-    background: #673AB7;
-    padding: 20px;
+    background: #4a90e2;
     color: white;
+    padding: 15px;
     text-align: center;
+    font-size: 24px;
 }
 
 .container {
     display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
     padding: 20px;
-    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-    grid-gap: 20px;
+}
+
+/* ============================
+   SECTIONS
+=============================== */
+.projects-section,
+.tasks-section,
+.notes-section,
+.timer-section {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
 }
 
 h2 {
+    margin-top: 0;
     color: #333;
 }
 
-input, textarea {
+/* ============================
+   INPUTS & BUTTONS
+=============================== */
+input, textarea, select {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+textarea {
+    height: 150px;
 }
 
 button {
-    padding: 8px 12px;
-    background: #673AB7;
+    padding: 8px 16px;
+    background: #4a90e2;
     color: white;
     border: none;
+    border-radius: 6px;
     cursor: pointer;
+    font-weight: bold;
 }
 
 button:hover {
-    background: #5E35B1;
+    background: #3178c6;
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
+/* ============================
+   TASK LIST
+=============================== */
+#taskList li {
+    list-style: none;
+    background: #f9f9f9;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-li {
-    background: white;
+.task-buttons button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 8px;
+}
+
+.task-buttons button:nth-child(1) { color: green; }
+.task-buttons button:nth-child(2) { color: orange; }
+.task-buttons button:nth-child(3) { color: red; }
+
+/* ============================
+   PROJECT LIST
+=============================== */
+#projectList li {
+    list-style: none;
+    background: #f0f0f0;
     padding: 10px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     border-radius: 6px;
     display: flex;
     justify-content: space-between;
 }
 
+/* ============================
+   TIMER
+=============================== */
 #timer {
-    font-size: 32px;
+    font-size: 40px;
     text-align: center;
-    padding: 10px;
+    margin-bottom: 15px;
+    font-weight: bold;
 }
