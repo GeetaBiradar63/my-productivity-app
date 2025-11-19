@@ -10,6 +10,7 @@
 const API = "https://my-productivity-app-79up.onrender.com/tasks";
 
 
+
 // HTML elements
 const taskInput = document.getElementById("taskInput");
 const taskList = document.getElementById("taskList");
@@ -175,3 +176,4 @@ function updateTimer() {
 renderProjects();
 updateTimer();
 loadTasks();
+
