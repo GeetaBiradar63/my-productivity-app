@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import Task from "./models/task.js";
 
 dotenv.config();
 const app = express();
@@ -15,16 +16,7 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log("Error:", err));
 
-// Mongoose Schema
-const taskSchema = new mongoose.Schema({
-  title: String,
-  completed: Boolean,
-});
-
-const Task = mongoose.model("Task", taskSchema);
-
 // ROUTES
-
 app.get("/", (req, res) => {
   res.send("Backend Working");
 });
@@ -48,10 +40,28 @@ app.delete("/tasks/:id", async (req, res) => {
   res.json({ message: "Deleted" });
 });
 
-// Update task
-app.put("/tasks/:id", async (req, res) => {
+// Edit task
+app.put("/tasks/edit/:id", async (req, res) => {
   const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
   res.json(task);
+});
+
+// Mark completed
+app.put("/tasks/complete/:id", async (req, res) => {
+  const task = await Task.findByIdAndUpdate(
+    req.params.id,
+    { completed: true },
+    { new: true }
+  );
+  res.json(task);
+});
+
+// Search task
+app.get("/tasks/search/:query", async (req, res) => {
+  const tasks = await Task.find({
+    title: { $regex: req.params.query, $options: "i" },
+  });
+  res.json(tasks);
 });
 
 app.listen(process.env.PORT, () =>
