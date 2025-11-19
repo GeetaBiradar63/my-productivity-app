@@ -158,34 +158,34 @@ async function fetchTasks() {
 }
 
 async function addTask() {
-  if (!taskInput) return;
   const title = taskInput.value.trim();
   if (!title) return alert("Enter a task title");
 
+  const category = categoryInput?.value || "General";
+  const priority = priorityInput?.value || "low";
+  const deadline = deadlineInput?.value || null;
+
   const payload = {
     title,
-    category: categoryInput ? categoryInput.value : "General",
-    priority: priorityInput ? priorityInput.value : "low",
-    deadline: deadlineInput && deadlineInput.value ? deadlineInput.value : null,
-    completed: false,
+    category,
+    priority,
+    deadline,
+    completed: false
   };
 
-  try {
-    await fetch(API, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-  } catch (e) {
-    console.error("addTask error", e);
-    alert("Could not add task (network).");
-    return;
-  }
+  console.log("Sending to backend:", payload);
+
+  await fetch(API, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
 
   taskInput.value = "";
-  if (deadlineInput) deadlineInput.value = "";
+  deadlineInput.value = "";
   loadTasks();
 }
+
 
 async function deleteTask(id) {
   try {
@@ -443,5 +443,6 @@ window.editTaskPrompt = editTaskPrompt;
 window.deleteTask = deleteTask;
 
 bind();
+
 
 
