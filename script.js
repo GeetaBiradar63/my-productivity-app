@@ -1,7 +1,7 @@
 /* FINAL script.js — corrected API + full task rendering + working theme */
 
 /* ---- Correct Backend API ---- */
-const API = "https://my-productivity-app-1.onrender.com/tasks";
+const API = "https://my-productivity-app-79up.onrender.com";
 
 
 
@@ -374,5 +374,6 @@ window.toggleComplete = toggleComplete;
 window.deleteTask = deleteTask;
 
 bind();
+
 
 
