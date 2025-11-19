@@ -1,8 +1,3 @@
-// ======================
-// BACKEND TASK API SETUP
-// ======================
-
-// Use Render backend URL
 const API = "https://my-productivity-app-79up.onrender.com/tasks";
 
 // HTML elements
@@ -12,20 +7,19 @@ const deadlineInput = document.getElementById("deadlineInput");
 const searchInput = document.getElementById("searchInput");
 const taskList = document.getElementById("taskList");
 
-
-// =====================
+// ==========================
 // LOAD TASKS
-// =====================
+// ==========================
 async function loadTasks() {
     const res = await fetch(API);
     const tasks = await res.json();
     renderTasks(tasks);
+    renderCalendar(tasks);
 }
 
-
-// =====================
+// ==========================
 // RENDER TASKS
-// =====================
+// ==========================
 function renderTasks(tasks) {
     taskList.innerHTML = "";
 
@@ -53,12 +47,16 @@ function renderTasks(tasks) {
 
         taskList.appendChild(li);
     });
+
+    // Dashboard stats
+    document.getElementById("totalTasks").textContent = tasks.length;
+    document.getElementById("completedTasks").textContent = tasks.filter(t => t.completed).length;
+    document.getElementById("pendingTasks").textContent = tasks.filter(t => !t.completed).length;
 }
 
-
-// =====================
+// ==========================
 // ADD TASK
-// =====================
+// ==========================
 async function addTask() {
     const title = taskInput.value.trim();
     const category = categoryInput.value;
@@ -77,19 +75,17 @@ async function addTask() {
     loadTasks();
 }
 
-
-// =====================
-// MARK COMPLETE
-// =====================
+// ==========================
+// COMPLETE TASK
+// ==========================
 async function completeTask(id) {
     await fetch(`${API}/complete/${id}`, { method: "PUT" });
     loadTasks();
 }
 
-
-// =====================
+// ==========================
 // EDIT TASK
-// =====================
+// ==========================
 async function editTaskPrompt(id, oldTitle) {
     const newTitle = prompt("Edit task:", oldTitle);
     if (!newTitle) return;
@@ -103,19 +99,17 @@ async function editTaskPrompt(id, oldTitle) {
     loadTasks();
 }
 
-
-// =====================
+// ==========================
 // DELETE TASK
-// =====================
+// ==========================
 async function deleteTask(id) {
     await fetch(`${API}/${id}`, { method: "DELETE" });
     loadTasks();
 }
 
-
-// =====================
-// SEARCH TASKS
-// =====================
+// ==========================
+// SEARCH TASK
+// ==========================
 async function searchTasks() {
     const q = searchInput.value;
 
@@ -126,10 +120,9 @@ async function searchTasks() {
     renderTasks(tasks);
 }
 
-
-// =====================
+// ==========================
 // PROJECTS — LOCAL STORAGE
-// =====================
+// ==========================
 let projects = JSON.parse(localStorage.getItem("projects")) || [];
 
 function addProject() {
@@ -159,10 +152,9 @@ function deleteProject(i) {
     renderProjects();
 }
 
-
-// =====================
+// ==========================
 // NOTES — LOCAL STORAGE
-// =====================
+// ==========================
 document.getElementById("notes").value =
     localStorage.getItem("notes") || "";
 
@@ -170,10 +162,9 @@ function saveNotes() {
     localStorage.setItem("notes", document.getElementById("notes").value);
 }
 
-
-// =====================
-// POMODORO TIMER
-// =====================
+// ==========================
+// POMODORO
+// ==========================
 let time = 25 * 60;
 let timerInterval = null;
 
@@ -187,6 +178,10 @@ function startTimer() {
         if (time <= 0) {
             clearInterval(timerInterval);
             timerInterval = null;
+
+            const beep = new Audio("beep.mp3");
+            beep.play();
+
             alert("Time's up!");
             time = 25 * 60;
         }
@@ -206,10 +201,46 @@ function updateTimer() {
     document.getElementById("timer").textContent = `${minutes}:${seconds}`;
 }
 
+// ==========================
+// DEADLINE CALENDAR
+// ==========================
+function renderCalendar(tasks) {
+    const table = document.getElementById("calendarTable");
+    table.innerHTML = "";
 
-// =====================
+    const deadlines = tasks.filter(t => t.deadline);
+
+    if (deadlines.length === 0) {
+        table.innerHTML = "<tr><td>No deadlines</td></tr>";
+        return;
+    }
+
+    deadlines.forEach(t => {
+        table.innerHTML += `
+            <tr>
+                <td>${t.title}</td>
+                <td>${new Date(t.deadline).toLocaleDateString()}</td>
+                <td>${t.category}</td>
+            </tr>
+        `;
+    });
+}
+
+// ==========================
+// DARK MODE
+// ==========================
+function toggleTheme() {
+    document.body.classList.toggle("dark");
+    localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+}
+
+if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark");
+}
+
+// ==========================
 // INITIAL LOAD
-// =====================
+// ==========================
 renderProjects();
 updateTimer();
 loadTasks();
