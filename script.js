@@ -182,7 +182,11 @@ function startTimer() {
             const beep = new Audio("beep.mp3");
             beep.play();
 
-            alert("Time's up!");
+           (new AudioContext()).resume().then(() => {
+  const o = new AudioContext().createOscillator(); o.connect(new AudioContext().destination); o.start(); o.stop(0.15);
+});
+alert("Time's up!");
+
             time = 25 * 60;
         }
     }, 1000);
@@ -244,3 +248,4 @@ if (localStorage.getItem("theme") === "dark") {
 renderProjects();
 updateTimer();
 loadTasks();
+
