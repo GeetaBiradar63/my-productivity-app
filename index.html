@@ -26,8 +26,23 @@
         <!-- TASKS -->
         <div class="tasks-section">
             <h2>Tasks</h2>
+
+            <!-- NEW INPUTS -->
             <input id="taskInput" placeholder="New task...">
+
+            <select id="categoryInput">
+                <option>General</option>
+                <option>Work</option>
+                <option>Study</option>
+                <option>Personal</option>
+            </select>
+
+            <input id="deadlineInput" type="date">
+
             <button onclick="addTask()">Add Task</button>
+
+            <!-- SEARCH -->
+            <input id="searchInput" placeholder="Search tasks..." oninput="searchTasks()">
 
             <ul id="taskList"></ul>
         </div>
