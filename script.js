@@ -167,9 +167,7 @@ function renderTasks() {
   const catFilter = filterCategory?.value || "";
 
   allTasks
-    .filter((t) =>
-      t.title && t.title.toLowerCase().includes(q)
-    )
+    .filter((t) => t.title && t.title.toLowerCase().includes(q))
     .filter((t) => !catFilter || t.category === catFilter)
     .forEach((t) => {
       const li = document.createElement("li");
@@ -260,10 +258,6 @@ function renderProjects() {
   projects.forEach((p, idx) => {
     const li = document.createElement("li");
     li.textContent = p;
-    li.style.display = "flex";
-    li.style.justifyContent = "space-between";
-    li.style.alignItems = "center";
-    li.style.marginBottom = "6px";
 
     const btn = document.createElement("button");
     btn.textContent = "✕";
