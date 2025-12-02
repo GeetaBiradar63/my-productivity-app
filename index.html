@@ -6,168 +6,177 @@
   <title>✨ My Productivity</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+<body class="theme-blue">
 
-<body>
+  <header class="topbar">
+    <h1>✨ My Productivity</h1>
 
-<header class="topbar">
-  <h1>✨ My Productivity</h1>
-
-  <div class="theme-area">
-    <label>Theme</label>
-    <select id="themeSelect" class="theme-select">
+    <div class="theme-area">
+      <label for="themeSelect">Theme</label>
+      <select id="themeSelect" class="theme-select">
         <option value="blue">Blue</option>
         <option value="purple">Purple</option>
         <option value="mint">Mint</option>
-        <option value="dark">Dark</option>
-    </select>
+      </select>
+      <button id="darkToggle" class="btn small">🌙</button>
+    </div>
+  </header>
 
-    <button id="darkToggle" class="btn small">🌙</button>
-  </div>
-</header>
+  <main class="grid">
 
-<main class="grid">
+    <!-- LEFT COLUMN -->
+    <aside class="col left-col">
 
-  <!-- LEFT COLUMN -->
-  <aside class="col left-col">
-
-    <!-- DASHBOARD -->
-    <section class="card glass dashboard">
-      <h3>Dashboard</h3>
-      <div class="stats">
-        <div>
-          <h4>Total</h4><span id="totalTasks">0</span>
+      <!-- DASHBOARD -->
+      <section class="card glass dashboard">
+        <h3>Dashboard</h3>
+        <div class="stats">
+          <div>
+            <h4>Total</h4>
+            <span id="totalTasks">0</span>
+          </div>
+          <div>
+            <h4>Completed</h4>
+            <span id="completedTasks">0</span>
+          </div>
+          <div>
+            <h4>Pending</h4>
+            <span id="pendingTasks">0</span>
+          </div>
         </div>
-        <div>
-          <h4>Completed</h4><span id="completedTasks">0</span>
+
+        <div class="progress-wrapper">
+          <svg class="progress-ring" width="80" height="80">
+            <circle
+              class="progress-ring__circle"
+              stroke="#4f46e5"
+              stroke-width="6"
+              fill="transparent"
+              r="36"
+              cx="40"
+              cy="40"
+            />
+          </svg>
+          <div id="progressPercent" class="percent-text">0%</div>
         </div>
-        <div>
-          <h4>Pending</h4><span id="pendingTasks">0</span>
+      </section>
+
+      <!-- PROJECTS -->
+      <section class="card glass">
+        <h3>Projects</h3>
+        <div class="row" style="margin-bottom: 8px;">
+          <input id="projectInput" placeholder="New project name..." />
+          <button id="addProjectBtn" class="btn">Add</button>
         </div>
-      </div>
+        <ul id="projectList"></ul>
+      </section>
 
-      <div class="progress-wrapper">
-        <svg class="progress-ring" width="80" height="80">
-          <circle class="progress-ring__circle" stroke="#4f46e5" stroke-width="6"
-            fill="transparent" r="36" cx="40" cy="40" />
-        </svg>
-        <div id="progressPercent" class="percent-text">0%</div>
-      </div>
+      <!-- STICKY NOTES -->
+      <section class="card glass">
+        <h3>Sticky Notes</h3>
+        <div class="row" style="margin-bottom: 8px;">
+          <input id="stickyTitle" placeholder="Title" />
+          <select id="stickyColor">
+            <option value="#ffd6d6">Rose</option>
+            <option value="#d6fff0">Mint</option>
+            <option value="#d6e0ff">Blue</option>
+          </select>
+          <button id="addStickyBtn" class="btn">Add</button>
+        </div>
+        <div id="stickyContainer" class="sticky-area"></div>
+      </section>
+
+    </aside>
+
+    <!-- MIDDLE COLUMN -->
+    <section class="col mid-col">
+
+      <!-- ADD TASK -->
+      <section class="card glass add-task">
+        <h3>Add Task</h3>
+        <div class="add-row">
+          <input id="taskInput" placeholder="New task..." />
+          <select id="categoryInput">
+            <option value="General">General</option>
+            <option value="Work">Work</option>
+            <option value="Study">Study</option>
+            <option value="Personal">Personal</option>
+          </select>
+
+          <select id="priorityInput">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+
+          <input id="deadlineInput" type="date" />
+          <button id="addTaskBtn" class="btn">Add Task</button>
+        </div>
+
+        <div class="filters" style="margin-top: 10px;">
+          <input id="searchInput" placeholder="Search tasks..." />
+          <select id="filterCategory">
+            <option value="">All</option>
+            <option value="General">General</option>
+            <option value="Work">Work</option>
+            <option value="Study">Study</option>
+            <option value="Personal">Personal</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- TASK LIST -->
+      <section class="card glass tasks">
+        <h3>Tasks</h3>
+        <ul id="taskList" class="task-list"></ul>
+      </section>
+
     </section>
 
-    <!-- PROJECTS -->
-    <section class="card glass">
-      <h3>Projects</h3>
-      <div class="row">
-        <input id="projectInput" placeholder="New project name..." />
-        <button id="addProjectBtn" class="btn">Add</button>
-      </div>
-      <ul id="projectList"></ul>
-    </section>
+    <!-- RIGHT COLUMN -->
+    <aside class="col right-col">
 
-    <!-- STICKY NOTES -->
-    <section class="card glass">
-      <h3>Sticky Notes</h3>
-      <div class="row">
-        <input id="stickyTitle" placeholder="Title" />
-        <select id="stickyColor">
-          <option value="#ffd6d6">Rose</option>
-          <option value="#d6fff0">Mint</option>
-          <option value="#d6e0ff">Blue</option>
-        </select>
-        <button id="addStickyBtn" class="btn">Add</button>
-      </div>
+      <!-- CALENDAR -->
+      <section class="card glass calendar">
+        <h3>Deadlines</h3>
+        <table id="calendarTable">
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Due</th>
+              <th>Cat</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
 
-      <div id="stickyContainer" class="sticky-area"></div>
-    </section>
+      <!-- POMODORO -->
+      <section class="card glass pomodoro">
+        <h3>Pomodoro</h3>
+        <div id="timer" class="timer">25:00</div>
+        <div class="row">
+          <button id="startTimerBtn" class="btn">Start</button>
+          <button id="resetTimerBtn" class="btn danger">Reset</button>
+          <button id="shortTestBtn" class="btn">Test (5s)</button>
+        </div>
+      </section>
 
-  </aside>
+      <!-- ACTIONS -->
+      <section class="card glass actions">
+        <h3>Actions</h3>
+        <button id="exportBtn" class="btn" style="margin-bottom: 8px;">Export Tasks (JSON)</button>
+        <button id="clearCompletedBtn" class="btn danger">Clear Completed</button>
+      </section>
 
-  <!-- MIDDLE COLUMN -->
-  <section class="col mid-col">
+    </aside>
 
-    <!-- ADD TASK -->
-    <section class="card glass add-task">
-      <div class="add-row">
-        <input id="taskInput" placeholder="New task..." />
-        <select id="categoryInput">
-          <option>General</option>
-          <option>Work</option>
-          <option>Study</option>
-          <option>Personal</option>
-        </select>
+  </main>
 
-        <select id="priorityInput">
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
-        </select>
+  <footer class="footer">
+    Built with ❤️ — Demo
+  </footer>
 
-        <input id="deadlineInput" type="date" />
-        <button id="addTaskBtn" class="btn">Add Task</button>
-      </div>
-
-      <div class="filters">
-        <input id="searchInput" placeholder="Search tasks..." />
-        <select id="filterCategory">
-          <option value="">All</option>
-          <option>General</option>
-          <option>Work</option>
-          <option>Study</option>
-          <option>Personal</option>
-        </select>
-      </div>
-    </section>
-
-    <!-- TASK LIST -->
-    <section class="card glass tasks">
-      <h3>Tasks</h3>
-      <ul id="taskList" class="task-list"></ul>
-    </section>
-
-  </section>
-
-  <!-- RIGHT COLUMN -->
-  <aside class="col right-col">
-
-    <!-- CALENDAR -->
-    <section class="card glass calendar">
-      <h3>Deadlines</h3>
-      <table id="calendarTable">
-        <thead>
-          <tr><th>Task</th><th>Due</th><th>Cat</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </section>
-
-    <!-- POMODORO -->
-    <section class="card glass pomodoro">
-      <h3>Pomodoro</h3>
-      <div id="timer" class="timer">25:00</div>
-      <div class="row">
-        <button id="startTimerBtn" class="btn">Start</button>
-        <button id="resetTimerBtn" class="btn danger">Reset</button>
-        <button id="shortTestBtn" class="btn">Test (5s)</button>
-      </div>
-    </section>
-
-    <!-- ACTIONS -->
-    <section class="card glass actions">
-      <h3>Actions</h3>
-      <button id="exportBtn" class="btn">Export Tasks (JSON)</button>
-      <button id="clearCompletedBtn" class="btn danger">Clear Completed</button>
-    </section>
-
-  </aside>
-
-</main>
-
-<footer class="footer">
-  Built with ❤️ — Demo
-</footer>
-
-<script src="script.js"></script>
-
+  <script src="script.js"></script>
 </body>
 </html>
-
