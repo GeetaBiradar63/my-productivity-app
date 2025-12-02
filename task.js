@@ -1,11 +1,12 @@
-import mongoose from "mongoose";
+// Add new task
+app.post("/tasks", async (req, res) => {
+  const task = await Task.create({
+    title: req.body.title,
+    category: req.body.category || "General",
+    priority: req.body.priority || "low",
+    deadline: req.body.deadline || "",
+    completed: false
+  });
 
-const taskSchema = new mongoose.Schema({
-  title: String,
-  category: String,
-  priority: String,
-  deadline: String,
-  completed: { type: Boolean, default: false }
+  res.json(task);
 });
-
-export default mongoose.model("Task", taskSchema);
