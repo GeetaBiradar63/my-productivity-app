@@ -1,139 +1,45 @@
-/* ===== GLOBAL RESET ===== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+/* THEMES */
+body.theme-blue {
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
 }
 
-body {
-    background: linear-gradient(135deg, #6e8efb, #a777e3);
-    color: #222;
-    padding: 20px;
+body.theme-purple {
+  background: linear-gradient(135deg, #a855f7, #6366f1);
 }
 
-/* ===== GLASS CARD ===== */
-.glass {
-    background: rgba(255,255,255,0.25);
-    backdrop-filter: blur(15px);
-    padding: 20px;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    margin-bottom: 20px;
+body.theme-mint {
+  background: linear-gradient(135deg, #34d399, #22c1c3);
 }
 
-/* ===== HEADER ===== */
-.topbar {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 25px;
+/* Task layout */
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.topbar h1 {
-    font-size: 36px;
-    font-weight: 700;
+.task-left {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
-/* ===== GRID ===== */
-.grid {
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    gap: 25px;
+/* Sticky notes */
+.sticky-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-/* ===== COLUMN ===== */
-.col {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.sticky-note {
+  min-width: 120px;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
-/* ===== TITLES ===== */
-h3 {
-    margin-bottom: 10px;
-}
-
-/* ===== BUTTONS ===== */
-.btn {
-    padding: 8px 14px;
-    background: #4f46e5;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.btn:hover {
-    background: #4338ca;
-}
-
-.btn.danger {
-    background: #dc2626;
-}
-
-/* ===== INPUTS ===== */
-input, select, textarea {
-    padding: 10px;
-    width: 100%;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-}
-
-/* ===== TASK LIST ===== */
-.task-list {
-    list-style: none;
-    padding: 0;
-}
-
-.task-list li {
-    background: rgba(255,255,255,0.35);
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* completed */
-.task-list li.done {
-    opacity: 0.6;
-    text-decoration: line-through;
-}
-
-/* priority badges */
-.badge {
-    padding: 4px 8px;
-    border-radius: 8px;
-    color: white;
-    font-size: 11px;
-}
-
-.badge.low { background: #22c55e; }
-.badge.medium { background: #f59e0b; }
-.badge.high { background: #ef4444; }
-
-/* ===== POMODORO TIMER ===== */
-.timer {
-    font-size: 40px;
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-/* ===== DARK MODE ===== */
-body.dark {
-    background: #111;
-    color: white;
-}
-body.dark .glass {
-    background: rgba(50,50,50,0.4);
-    color: white;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
-    .grid {
-        grid-template-columns: 1fr;
-    }
+.sticky-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
